@@ -25,7 +25,7 @@ const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
 
   const checkForFavourite = (movieId: number) => {
     const movies = JSON.parse(localStorage.getItem("favourites") || '[]');
-    return movies.some((m: MovieDetailsProps) => m.id === movieId);
+    return movies.some((m: MovieDetailsProps) => m.id === movieId); // returns T/F whether movie id matches one of the ids in the favourites array
   };
   
   return (

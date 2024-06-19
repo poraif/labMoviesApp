@@ -38,6 +38,11 @@ export interface MovieDetailsProps extends BaseMovieProps {
   }[];
 }
 
+export interface Review{
+  id: string;
+  content: string
+  author: string
+}
 
 export interface MovieImage {
   file_path: string;
