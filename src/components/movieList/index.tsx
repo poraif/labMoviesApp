@@ -3,11 +3,11 @@ import Movie from "../movieCard/";
 import Grid from "@mui/material/Grid";
 import { BaseMovieListProps } from "../../types/interfaces";
 
-const MovieList: React.FC<BaseMovieListProps> = ({movies, selectFavourite}) => {
-  // eslint-disable-next-line prefer-const
+const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
+    // eslint-disable-next-line prefer-const
   let movieCards = movies.map((m) => (
     <Grid key={m.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
-       <Movie key={m.id} movie={m} selectFavourite={selectFavourite}/>
+       <Movie key={m.id} movie={m} action={action}/>
     </Grid>
   ));
   return movieCards;
