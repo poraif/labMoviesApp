@@ -12,7 +12,7 @@ import MovieFilterUI, {
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { DiscoverMovies } from "../types/interfaces";
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import AddToMustWatchIcon from "../components/cardIcons/addToMustWatch";
 
 const titleFiltering = {
   name: "title",
@@ -58,7 +58,7 @@ const UpcomingMoviesPage: React.FC = () => {
         title="Upcoming Movies"
         movies={displayedMovies}
         action={(movie: BaseMovieProps) => {
-          return <PlaylistAddIcon />
+          return <AddToMustWatchIcon {...movie} />
           }}
       />
       <MovieFilterUI

@@ -4,13 +4,17 @@ import { BaseMovieProps, Review } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
+    mustWatch: number[];
     addToFavourites: ((movie: BaseMovieProps) => void);
+    addToMustWatch: ((movie: BaseMovieProps) => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
     addReview: ((movie: BaseMovieProps, review: Review) => void);
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
+    mustWatch: [],
     addToFavourites: () => {},
+    addToMustWatch: () => {},
     removeFromFavourites: () => {},
     addReview: (movie, review) => { movie.id, review},
 };
@@ -20,6 +24,7 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [favourites, setFavourites] = useState<number[]>([]);
     const [myReviews, setMyReviews] = useState<Review[]>( [] )
+    const [mustWatch, setMustWatch] = useState<number[]>( [] )
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {
@@ -29,6 +34,17 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             return prevFavourites;
         });
     }, []);
+
+    const addToMustWatch = useCallback((movie: BaseMovieProps) => {
+        setMustWatch((prevMustWatch) => {
+          if (!prevMustWatch.includes(movie.id)) {
+            const updatedMustWatch = [...prevMustWatch, movie.id];
+            console.log('Updated mustWatch list: ', updatedMustWatch);
+            return updatedMustWatch;
+          }
+          return prevMustWatch;
+        });
+      }, []);
 
     const removeFromFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
@@ -42,7 +58,9 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         <MoviesContext.Provider
             value={{
                 favourites,
+                mustWatch,
                 addToFavourites,
+                addToMustWatch,
                 removeFromFavourites,
                 addReview,
             }}
