@@ -24,7 +24,7 @@ const styles = {
   },
 };
 
-interface MovieListProps {
+interface BaseMovieListProps {
   movie:ListedMovie,
   action: (m: ListedMovie) => React.ReactNode;
 }

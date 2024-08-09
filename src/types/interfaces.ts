@@ -18,6 +18,18 @@ export interface BaseMovieProps {
   genre_ids?: number[];
 }
 
+export interface BaseCastMemberProps {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string; 
+}
+
+export interface BaseCastListProps {
+  cast: BaseCastMemberProps[];
+  action: (m: BaseCastMemberProps) => React.ReactNode;
+}
+
 export interface BaseMovieListProps {
   movies: BaseMovieProps[];
   action: (m: BaseMovieProps) => React.ReactNode;
@@ -39,7 +51,7 @@ export interface MovieDetailsProps extends BaseMovieProps {
   }[];
 }
 
-export interface Review{
+export interface Review {
   id: string;
   content: string
   author: string
@@ -54,6 +66,8 @@ export interface MovieImage {
   vote_count?: number;
   width?: number;
 }
+
+
 
 export interface MoviePageProps {
   movie: MovieDetailsProps;

@@ -26,7 +26,7 @@ export const getUpcomingMovies = () => {
 
 export const getPopularMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1&sort_by=revenue.desc&primary_release_year=2024&region=US`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch popular movies. Response status: ${response.status}`);
@@ -50,6 +50,21 @@ export const getPopularMovies = () => {
       throw error
    });
   };
+
+  export const getMovieCredits = (id: string) => {
+    return fetch(
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to get movie credits. Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
+
   
   export const getGenres = () => {
     return fetch(
