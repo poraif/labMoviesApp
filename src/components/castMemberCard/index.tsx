@@ -44,7 +44,7 @@ const CastMemberCard: React.FC<CastCardProps> = ({cast, action}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`https://google.com`}>
+        <Link to={`/actors/:id`}>
           <Button variant="outlined" size="medium" color="primary">
             More details
           </Button>
