@@ -26,7 +26,7 @@ export interface BaseCastMemberProps {
 }
 
 export interface BaseCastListProps {
-  cast: BaseCastMemberProps[];
+  castMembers: BaseCastMemberProps[];
   action: (m: BaseCastMemberProps) => React.ReactNode;
 }
 
