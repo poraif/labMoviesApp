@@ -61,12 +61,25 @@ export const getPopularMovies = () => {
         }
         return response.json();
       })
-      .then((json) => json.cast)  // Ensure you're getting the 'cast' field
+      .then((json) => json.cast)
       .catch((error) => {
         throw error;
       });
   };
 
+  export const getActorDetails = (id: string | number) => {
+    return fetch(
+      `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to get actor details. Response status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error;
+    });
+  };
   
   export const getGenres = () => {
     return fetch(

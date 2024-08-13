@@ -8,6 +8,7 @@ import MoviePage from "./pages/movieDetailsPage";
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage"; 
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage"; 
 import PopularMoviesPage from "./pages/popularMoviesPage";
+import ActorDetailsPage from "./pages/actorDetailsPage";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import MoviesContextProvider from "./contexts/moviesContext";

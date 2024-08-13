@@ -44,7 +44,7 @@ const CastMemberCard: React.FC<CastCardProps> = ({cast, action}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/actors/:id`}>
+        <Link to={`/actors/${cast.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More details
           </Button>

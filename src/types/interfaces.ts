@@ -25,6 +25,16 @@ export interface BaseCastMemberProps {
   profile_path?: string; 
 }
 
+export interface ActorProps extends BaseCastMemberProps {
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday?: string;
+  gender: number;
+  place_of_birth: string;
+  popularity: number;
+}
+
 export interface BaseCastListProps {
   castMembers: BaseCastMemberProps[];
   action?: (m: BaseCastMemberProps) => React.ReactNode;
