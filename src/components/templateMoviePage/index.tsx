@@ -3,11 +3,18 @@ import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import Accordion from "@mui/material/Accordion";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import { getMovieImages, getMovieCredits } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps, BaseCastMemberProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import CastList from "../castList";
+import { Typography } from "@mui/material";
 
 const styles = {
     gridListRoot: {
@@ -19,6 +26,20 @@ const styles = {
         width: 450,
         height: '100vh',
     },
+    accordionBox: {
+        border: 1,
+        borderColor: 'primary.main',
+        bgcolor: 'primary.main',
+    },
+    accordionBoxText: {
+        fontSize: 20,
+        color: 'white',
+    },
+    similarButton: {
+        textAlign: "center",
+        marginTop: 10,
+        marginBottom: 10,
+    }
 };
 
 interface TemplateMoviePageProps {
@@ -85,7 +106,36 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
                 </Grid>
                 <Grid item xs={9}>
                 {children}
-                <CastList castMembers={credits} />
+                <Stack 
+                direction="column" 
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+                 >
+                <Button 
+                    sx={styles.similarButton}
+                    variant="contained"
+                    color="success"
+                    href="/movie/${movie.id}/similar"
+                >
+                    View similar movies
+                </Button>
+                </Stack>
+                <Accordion>
+                    <AccordionSummary
+                    sx={styles.accordionBox}
+                    expandIcon={<ArrowDropDownIcon />}
+                    aria-controls="panel2-content"
+                    id="panel2-header"
+                    >
+                    <Typography 
+                    sx={styles.accordionBoxText}
+                    >Cast Members</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                    <CastList castMembers={credits} />
+                    </AccordionDetails>
+                </Accordion>
                 </Grid>
             </Grid>
         </>

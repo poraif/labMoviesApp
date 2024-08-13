@@ -9,11 +9,11 @@ export const getMovies = () => {
     .catch((error) => {
       throw error
     });
-};
+  };
 
 export const getUpcomingMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&sort_by=primary_release_date.desc&include_video=false&page=1`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch upcoming movies. Response status: ${response.status}`);
@@ -26,10 +26,23 @@ export const getUpcomingMovies = () => {
 
 export const getPopularMovies = () => {
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1&sort_by=revenue.desc&primary_release_year=2024&region=US`
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&sort_by=revenue.desc&primary_release_year=2024&region=US`
   ).then((response) => {
     if (!response.ok)
       throw new Error(`Unable to fetch popular movies. Response status: ${response.status}`);
+    return response.json();
+  })
+    .catch((error) => {
+      throw error
+    });
+};
+
+export const getSimilarMovies = (id: string) => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Unable to fetch similar movies. Response status: ${response.status}`);
     return response.json();
   })
     .catch((error) => {
@@ -47,8 +60,8 @@ export const getPopularMovies = () => {
       return response.json();
     })
     .catch((error) => {
-      throw error
-   });
+      throw error;
+    });
   };
 
   export const getMovieCredits = (id: string | number) => {
@@ -109,12 +122,12 @@ export const getPopularMovies = () => {
   };
 
   export const getMovieReviews = (id: string | number) => { //movie id can be string or number
-    return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        // console.log(json.results);
-        return json.results;
-      });
-  };
+      return fetch(
+        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+      )
+        .then((res) => res.json())
+        .then((json) => {
+          // console.log(json.results);
+          return json.results;
+        });
+      };
