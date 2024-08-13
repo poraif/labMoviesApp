@@ -4,7 +4,6 @@ import MovieDetails from "../components/movieDetails";
 import PageTemplate from "../components/templateMoviePage";
 // import useMovie from "../hooks/useMovie";
 import { getMovie } from '../api/tmdb-api'
-import { getMovieCredits } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner';
 import { MovieDetailsProps } from "../types/interfaces";
@@ -15,6 +14,7 @@ const MovieDetailsPage: React.FC= () => {
     ["movie", id],
     ()=> getMovie(id||"")
   );
+
 
   if (isLoading) {
     return <Spinner />;

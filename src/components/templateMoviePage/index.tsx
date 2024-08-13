@@ -3,10 +3,11 @@ import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages } from "../../api/tmdb-api";
-import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
+import { getMovieImages, getMovieCredits } from "../../api/tmdb-api";
+import { MovieImage, MovieDetailsProps, BaseCastMemberProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
+import CastList from "../castList";
 
 const styles = {
     gridListRoot: {
@@ -27,22 +28,37 @@ interface TemplateMoviePageProps {
 
 
 const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) => {
-    const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
+    const { data: imagesData, error: imagesError, isLoading: imagesLoading, isError: imagesIsError } = useQuery<MovieImage[], Error>(
         ["images", movie.id],
         () => getMovieImages(movie.id)
     );
+    
+    const { data: creditsData, error: creditsError, isLoading: creditsLoading, isError: creditsIsError } = useQuery<BaseCastMemberProps[], Error>(
+        ["credits", movie.id],
+        () => getMovieCredits(movie.id)                                                                 
+    );
 
-    if (isLoading) {
+    if (imagesLoading || creditsLoading) {
         return <Spinner />;
     }
 
-    if (isError) {
-        return <h1>{(error
+    if (imagesIsError) {
+        return <h1>{(imagesError
+               
+        ).message}</h1>;
+    }
+
+    if (creditsIsError) {
+        return <h1>{(creditsError
 
         ).message}</h1>;
     }
 
-    const images = data as MovieImage[];
+    console.log('Images Data:', imagesData);
+    console.log('Credits Data:', creditsData);
+                                               
+    const images = imagesData as MovieImage[];
+    const credits = creditsData as BaseCastMemberProps[];
 
     return (
         <>
@@ -67,9 +83,9 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
                         </ImageList>
                     </div>
                 </Grid>
-
                 <Grid item xs={9}>
-                    {children}
+                {children}
+                <CastList castMembers={credits} />
                 </Grid>
             </Grid>
         </>

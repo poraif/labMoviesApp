@@ -27,7 +27,7 @@ export interface BaseCastMemberProps {
 
 export interface BaseCastListProps {
   castMembers: BaseCastMemberProps[];
-  action: (m: BaseCastMemberProps) => React.ReactNode;
+  action?: (m: BaseCastMemberProps) => React.ReactNode;
 }
 
 export interface BaseMovieListProps {

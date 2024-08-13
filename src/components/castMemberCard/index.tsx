@@ -1,4 +1,4 @@
-import React, {MouseEvent, useContext} from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -10,7 +10,7 @@ import { BaseCastMemberProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
 
 const styles = {
-  card: { maxWidth: 345 },
+  card: { maxWidth: 300 },
   media: { height: 300 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
@@ -19,9 +19,10 @@ const styles = {
 
 interface CastCardProps {
     cast: BaseCastMemberProps;
+    action?: (m: BaseCastMemberProps) => React.ReactNode;
 }
 
-const CastMemberCard: React.FC<CastCardProps> = ({cast}) => {
+const CastMemberCard: React.FC<CastCardProps> = ({cast, action}) => {
 
 
     return (
@@ -43,11 +44,12 @@ const CastMemberCard: React.FC<CastCardProps> = ({cast}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/actors/${cast.id}`}>
+        <Link to={`https://google.com`}>
           <Button variant="outlined" size="medium" color="primary">
             More details
           </Button>
         </Link>
+        {action && action(cast)}
       </CardActions>
         </Card>
       );
