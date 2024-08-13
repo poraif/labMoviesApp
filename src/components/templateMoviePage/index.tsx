@@ -116,7 +116,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
                     sx={styles.similarButton}
                     variant="contained"
                     color="success"
-                    href="/movie/${movie.id}/similar"
+                    href={`/movies/${movie.id}/similar`}
                 >
                     View similar movies
                 </Button>
