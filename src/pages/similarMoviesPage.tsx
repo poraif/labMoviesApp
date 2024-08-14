@@ -3,6 +3,7 @@ import PageTemplate from '../components/templateMovieListPage';
 import { BaseMovieProps } from "../types/interfaces";
 import { useParams } from "react-router-dom";
 import { getSimilarMovies } from "../api/tmdb-api";
+import { getMovie } from "../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import { DiscoverMovies } from "../types/interfaces";
@@ -27,6 +28,12 @@ import MovieFilterUI, {
 const SimilarMoviesPage: React.FC = () => {
 
     const { id } = useParams();
+
+    const { data: movie } = useQuery<BaseMovieProps, Error>(
+        ["movieDetails", id],
+        () => getMovie(id || "")
+      );
+
     const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
       ["movie", id],
       ()=> getSimilarMovies(id||"")
@@ -60,7 +67,7 @@ const SimilarMoviesPage: React.FC = () => {
     return (
       <>
         <PageTemplate
-          title="Movies similar to `${movie.title}`"
+          title={`Movies similar to ${movie?.title}`}
           movies={displayedMovies}
           action={(movie: BaseMovieProps) => {
             return <AddToMustWatchIcon {...movie} />

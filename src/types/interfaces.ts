@@ -91,6 +91,16 @@ export interface GenreData {
   }[];
 }
 
+// export interface CertificationData { 
+//   certifications: {
+//     IE: {
+//       certification: string;
+//       meaning: string;
+//       order: number;
+//     }[]
+//   }
+// }
+
 export interface DiscoverMovies {
   page: number;	
   total_pages: number;
@@ -106,4 +116,4 @@ export interface Review {
   movieId: number,
 }
 
-export type FilterOption = "title" | "genre";
+export type FilterOption = "title" | "genre" | "sortOrder";

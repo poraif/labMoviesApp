@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FilterCard from "../filterMoviesCard";
+import FilterMoviesCard from "../filterMoviesCard";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import { BaseMovieProps } from "../../types/interfaces";
@@ -12,6 +12,10 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
     const genreId = Number(value);
     const genreIds = movie.genre_ids;
     return genreId > 0 && genreIds ? genreIds.includes(genreId) : true;
+};
+
+export const sortByVotes = (a: BaseMovieProps, b: BaseMovieProps, order: string) => {
+    return order === "asc" ? a.vote_average - b.vote_average : b.vote_average - a.vote_average;
 };
 
 const styles = {
@@ -30,35 +34,36 @@ interface MovieFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
     titleFilter: string;
     genreFilter: string;
+    sortByVotes: string;
 }
 
+const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, sortByVotes }) => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
-    return (
-        <>
-            <Fab
-                color="secondary"
-                variant="extended"
-                onClick={() => setDrawerOpen(true)}
-                sx={styles.fab}
-            >
-                Filter
-            </Fab>
-            <Drawer
-                anchor="left"
-                open={drawerOpen}
-                onClose={() => setDrawerOpen(false)}
-            >
-                <FilterCard
-                    onUserInput={onFilterValuesChange}
-                    titleFilter={titleFilter}
-                    genreFilter={genreFilter}
-                />
-            </Drawer>
-        </>
-    );
+  return (
+    <>
+      <Fab
+        color="secondary"
+        variant="extended"
+        onClick={() => setDrawerOpen(true)}
+        sx={styles.fab}
+      >
+        Filter
+      </Fab>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <FilterMoviesCard
+          onUserInput={onFilterValuesChange}
+          titleFilter={titleFilter}
+          genreFilter={genreFilter}
+          sortByVotes={sortByVotes}
+        />
+      </Drawer>
+    </>
+  );
 };
 
 export default MovieFilterUI;

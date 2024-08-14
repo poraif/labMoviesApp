@@ -5,6 +5,7 @@ import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
+  sortByVotes,
 } from "../components/movieFilterUI";
 import { DiscoverMovies } from "../types/interfaces";
 import { useQuery } from "react-query";
@@ -12,22 +13,30 @@ import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import { BaseMovieProps } from "../types/interfaces";
 
-
 const titleFiltering = {
   name: "title",
   value: "",
   condition: titleFilter,
 };
+
 const genreFiltering = {
   name: "genre",
   value: "0",
   condition: genreFilter,
 };
 
+const sortFiltering = {
+  name: "sortOrder",
+  value: "desc", 
+  condition: () => true, 
+  sort: sortByVotes,
+};
+
 const HomePage: React.FC = () => {
   const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
-  const { filterValues, setFilterValues, filterFunction } = useFiltering(
-    [titleFiltering, genreFiltering]
+
+  const { filterValues, setFilterValues, filterFunction, sortingFunction } = useFiltering(
+    [titleFiltering, genreFiltering, sortFiltering]
   );
 
   if (isLoading) {
@@ -38,18 +47,16 @@ const HomePage: React.FC = () => {
     return <h1>{error.message}</h1>;
   }
 
-
   const changeFilterValues = (type: string, value: string) => {
-    const changedFilter = { name: type, value: value };
-    const updatedFilterSet =
-      type === "title"
-        ? [changedFilter, filterValues[1]]
-        : [filterValues[0], changedFilter];
+    const updatedFilterSet = filterValues.map(f =>
+      f.name === type ? { ...f, value } : f
+    );
     setFilterValues(updatedFilterSet);
   };
 
   const movies = data ? data.results : [];
-  const displayedMovies = filterFunction(movies);
+  const filteredMovies = filterFunction(movies);
+  const displayedMovies = sortingFunction(filteredMovies);
 
   return (
     <>
@@ -62,10 +69,12 @@ const HomePage: React.FC = () => {
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
-        titleFilter={filterValues[0].value}
-        genreFilter={filterValues[1].value}
+        titleFilter={filterValues.find(f => f.name === "title")?.value || ""}
+        genreFilter={filterValues.find(f => f.name === "genre")?.value || "0"}
+        sortByVotes={filterValues.find(f => f.name === "sortOrder")?.value || "desc"}
       />
     </>
   );
 };
+
 export default HomePage;
