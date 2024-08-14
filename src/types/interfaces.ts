@@ -18,6 +18,27 @@ export interface BaseMovieProps {
   genre_ids?: number[];
 }
 
+export interface BaseMovieListProps {
+  movies: BaseMovieProps[];
+  action: (m: BaseMovieProps) => React.ReactNode;
+}
+
+export interface MovieListPageTemplateProps extends BaseMovieListProps {
+  title: string;
+}
+
+
+export interface MovieDetailsProps extends BaseMovieProps {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  production_countries: {
+    iso_3166_1: string;
+    name: string;
+  }[];
+}
+
 export interface BaseCastMemberProps {
   id: number;
   name: string;
@@ -38,27 +59,6 @@ export interface ActorProps extends BaseCastMemberProps {
 export interface BaseCastListProps {
   castMembers: BaseCastMemberProps[];
   action?: (m: BaseCastMemberProps) => React.ReactNode;
-}
-
-export interface BaseMovieListProps {
-  movies: BaseMovieProps[];
-  action: (m: BaseMovieProps) => React.ReactNode;
-}
-
-export interface MovieListPageTemplateProps extends BaseMovieListProps {
-  title: string;
-}
-
-
-export interface MovieDetailsProps extends BaseMovieProps {
-  genres: {
-    id: number;
-    name: string;
-  }[];
-  production_countries: {
-    iso_3166_1: string;
-    name: string;
-  }[];
 }
 
 export interface Review {
@@ -117,3 +117,13 @@ export interface Review {
 }
 
 export type FilterOption = "title" | "genre" | "sortOrder";
+
+export interface FantasyMovieForm {
+  title: string,
+  overview: string,  
+  genre_ids: number[],
+  release_date: string,
+  runtime: number,
+  production_companies: string,
+  id: string,
+}
