@@ -1,50 +1,37 @@
-import React, { useContext, useState, ChangeEvent } from "react";
+import React, { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Checkbox from "@mui/material/Checkbox";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs from 'dayjs';
-import MenuItem from "@mui/material/MenuItem";
+import styles from "./styles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { useNavigate } from "react-router-dom";
-import { FantasyMovieProps, FantasyMovieForm } from "../../types/interfaces";
+import { FantasyMovieForm } from "../../types/interfaces";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import GenreCheckbox from "./genreCheckbox";
 
-// export default function SimpleDatePicker() {
-//     return (
-//       <LocalizationProvider dateAdapter={AdapterDayjs}>
-//         <DatePicker defaultValue={dayjs('2022-04-17')} />
-//       </LocalizationProvider>
-//     );
-//   }
-
-const AddMovieForm: React.FC<FantasyMovieProps> = (movie) => {
-    const defaultValues = {
-        title: "Nosferatu",
-        overview: "Nosferatu is a silent horror film that tells the story of Count Orlok, a vampire who brings terror and death to a small town while a young man tries to stop him.",
-        genre_ids: [18, 27],
-        release_date: "1922-03-04",
-        runtime: 0,
-        production_companies: "",
-    };
-    
+const AddMovieForm: React.FC = () => {
     const {
         control,
         formState: { errors },
         handleSubmit,
         reset,
-    } = useForm<FantasyMovieForm>({ defaultValues });
+    } = useForm<FantasyMovieForm>({
+        defaultValues: {
+            title: "",
+            overview: "",
+            genre_ids: [],
+            release_date: "",
+            runtime: 0,
+            production_company: "",
+        }
+    });
 
     const navigate = useNavigate();
-    const context = useContext(MoviesContext);
+    const { addFantasyMovie } = useContext(MoviesContext);
     const [open, setOpen] = useState(false);
-
 
     const handleSnackClose = () => {
         setOpen(false);
@@ -52,7 +39,7 @@ const AddMovieForm: React.FC<FantasyMovieProps> = (movie) => {
     };
 
     const onSubmit: SubmitHandler<FantasyMovieForm> = (formData) => {
-        context.addFantasyMovie(formData);
+        addFantasyMovie(formData);
         setOpen(true);
     };
 
@@ -73,43 +60,41 @@ const AddMovieForm: React.FC<FantasyMovieProps> = (movie) => {
                     onClose={handleSnackClose}
                 >
                     <Typography variant="h4">
-                        Thank you for submitting a review
+                        Fantasy movie submitted
                     </Typography>
                 </Alert>
             </Snackbar>
             <form style={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Controller
-                    name="author"
+                    name="title"
                     control={control}
-                    rules={{ required: "Name is required" }}
-                    defaultValue=""
+                    rules={{ required: "Title is required" }}
                     render={({ field: { onChange, value } }) => (
                         <TextField
-                            sx={{ width: "40ch" }}
+                            sx={{ width: "100%" }}
                             variant="outlined"
                             margin="normal"
                             required
                             onChange={onChange}
                             value={value}
-                            id="author"
-                            label="Author's name"
+                            id="title"
+                            label="Name of movie"
                             autoFocus
                         />
                     )}
                 />
-                {errors.author && (
+                {errors.title && (
                     <Typography variant="h6" component="p">
-                        {errors.author.message}
+                        {errors.title.message}
                     </Typography>
                 )}
                 <Controller
-                    name="content"
+                    name="overview"
                     control={control}
                     rules={{
-                        required: "Review cannot be empty.",
-                        minLength: { value: 10, message: "Review is too short" },
+                        required: "Overview is required",
+                        minLength: { value: 10, message: "Overview must be at least 10 characters." },
                     }}
-                    defaultValue=""
                     render={({ field: { onChange, value } }) => (
                         <TextField
                             variant="outlined"
@@ -118,38 +103,95 @@ const AddMovieForm: React.FC<FantasyMovieProps> = (movie) => {
                             fullWidth
                             value={value}
                             onChange={onChange}
-                            label="Review text"
-                            id="review"
+                            label="Overview"
+                            id="overview"
                             multiline
                             minRows={10}
                         />
                     )}
                 />
-                {errors.content && (
+                {errors.overview && (
                     <Typography variant="h6" component="p">
-                        {errors.content.message}
+                        {errors.overview.message}
                     </Typography>
                 )}
                 <Controller
+                    name="genre_ids"
                     control={control}
-                    name="rating"
-                    render={({ field }) => (
+                    render={({ field: { onChange, value } }) => (
+                        <GenreCheckbox selectedGenres={value} onChange={onChange} />
+                    )}
+                />
+                <Controller
+                    name="release_date"
+                    control={control}
+                    rules={{
+                        required: "Release date is required",
+                        pattern: {
+                            value: /\d{4}-\d{2}-\d{2}/,
+                            message: "Release date must be in YYYY-MM-DD format"
+                        }
+                    }}
+                    render={({ field: { onChange, value } }) => (
                         <TextField
-                            {...field}
-                            id="select-rating"
-                            select
+                            sx={{ width: "100%" }}
                             variant="outlined"
-                            label="Rating Select"
-                            value={rating}
-                            onChange={handleRatingChange}
-                            helperText="Don't forget your rating"
-                        >
-                            {ratings.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                            margin="normal"
+                            required
+                            onChange={onChange}
+                            value={value}
+                            id="release_date"
+                            label="Release Date"
+                            autoFocus
+                        />
+                    )}
+                />
+                {errors.release_date && (
+                    <Typography variant="h6" component="p">
+                        {errors.release_date.message}
+                    </Typography>
+                )}
+                <Controller
+                    name="runtime"
+                    control={control}
+                    rules={{
+                        required: "Runtime is required",
+                        min: { value: 0, message: "Runtime must be a positive number" }
+                    }}
+                    render={({ field: { onChange, value } }) => (
+                        <TextField
+                            id="runtime"
+                            value={value}
+                            onChange={onChange}
+                            required
+                            label="Runtime (mins)"
+                            type="number"
+                            InputLabelProps={{ shrink: true }}
+                            sx={{ width: "100%" }}
+                            variant="outlined"
+                            margin="normal"
+                        />
+                    )}
+                />
+                {errors.runtime && (
+                    <Typography variant="h6" component="p">
+                        {errors.runtime.message}
+                    </Typography>
+                )}
+                <Controller
+                    name="production_company"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <TextField
+                            sx={{ width: "100%" }}
+                            variant="outlined"
+                            margin="normal"
+                            onChange={onChange}
+                            value={value}
+                            id="production_company"
+                            label="Production Company"
+                            autoFocus
+                        />
                     )}
                 />
                 <Box >
@@ -168,8 +210,12 @@ const AddMovieForm: React.FC<FantasyMovieProps> = (movie) => {
                         sx={styles.submit}
                         onClick={() => {
                             reset({
-                                author: "",
-                                content: "",
+                                title: "",
+                                overview: "",
+                                genre_ids: [],
+                                release_date: "",
+                                runtime: 0,
+                                production_company: "",
                             });
                         }}
                     >

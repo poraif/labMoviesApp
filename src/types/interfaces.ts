@@ -124,6 +124,6 @@ export interface FantasyMovieForm {
   genre_ids: number[],
   release_date: string,
   runtime: number,
-  production_companies: string,
+  production_company?: string,
   id: string,
 }
