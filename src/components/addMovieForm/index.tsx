@@ -20,12 +20,12 @@ const AddMovieForm: React.FC = () => {
         reset,
     } = useForm<FantasyMovieForm>({
         defaultValues: {
-            title: "",
-            overview: "",
+            title: "Titanic 2: Reckoning",
+            overview: "This is where you describe the storyline or other details of your movie",
             genre_ids: [],
-            release_date: "",
-            runtime: 0,
-            production_company: "",
+            release_date: "1922-03-04",
+            runtime: 180,
+            production_company: "Peadar Productions",
         }
     });
 

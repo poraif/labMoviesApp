@@ -30,7 +30,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     const [favourites, setFavourites] = useState<number[]>([]);
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
-    const [fantasyMovies, setFantasyMovie] = useState<FantasyMovieForm[]>([]);
+    const [fantasyMovies, setFantasyMovies] = useState<FantasyMovieForm[]>([]);
 
     const addToFavourites = useCallback((movie: BaseMovieProps) => {
         setFavourites((prevFavourites) => {
@@ -60,13 +60,13 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setMyReviews( {...myReviews, [movie.id]: review } )
       };
     
-      const addFantasyMovie = (formData: FantasyMovieForm) => {
+      const addFantasyMovie = useCallback((formData: FantasyMovieForm) => {
         const newMovie: FantasyMovieForm = {
             ...formData,
             id: uuidv4(),
         };
-        setFantasyMovie((fantasyMovies) => [...fantasyMovies, newMovie]);
-    };
+        setFantasyMovies((prevFantasyMovies) => [...prevFantasyMovies, newMovie]);
+    }, []);
 
     return (
         <MoviesContext.Provider
