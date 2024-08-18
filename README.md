@@ -4,54 +4,38 @@
 
 __Name:__ Peadar O Raifeartaigh
 
-__Video Demo:__ https://youtube.com/[URL]
+__Video Demo:__ https://youtu.be/rsyW5rTiPYE
 
 This repository contains an implementation of the Movie Fans Web Application using the React library. 
 
 ### Features
-[ A bullet-point list of the __new features__ you added to the Movies Fan app (and any **modifications to existing features**) .]
 
-+ Feature 1
-+ Feature 2
-+ Feature 3
-+ etc
-+ etc
++ Upcoming movies view
++ Cast list, with link to more details for actor within movie details page
++ View similar movies within movie details
++ Sort movies by vote count (descending/ascending)
++ Add a fantasy movie and view list of added movies
 
 ### Setup requirements.
 
-[ Outline any non-standard setup steps necessary to run your app locally after cloning the repo.]
+No additional setup steps required.
 
 ### API endpoints
 
-[ List the __additional__ TMDB endpoints used, giving the description and pathname for each one.] 
+   + /movie/upcoming - list of upcoming movies
+   + /movie/{id}/similar - list of movies similar to selected movie
+   + /movie/{id}/credits - get the list of actor credits for the movie
+   + /person{id} - get the details of the chosen actor
 
-e.g.
-+ Discover list of movies - discover/movie
-+ Movie details - movie/:id
-+ Movie genres = /genre/movie/list
 
 ### Routing
 
-[ List the __new routes__ supported by your app and state the associated page.]
++ /movies/upcoming - list display of upcoming movies, UpcomingMoviesPage
++ /movies/:id/similar - display of movies similar to selected movie, SimilarMoviesPage
++ /actors/:id - details page for individual actors, ActorDetailsPage
++ /fantasymovies - form for creating fantasy movie, list of created fantasy movies, FantasyMoviePage 
 
-+ /blogs - displays all published blogs.
-+ /blogs/:id - displays a particular blog.
-+ /blogs/:id/comments - detail view of a particular blog and its comments.
-+ etc.
-
-[If relevant, state what aspects of your app are protected (i.e. require authentication) and what is public.]
 
 ### Third Party Components/Integration
 
-[Describe the level of  integration/use or other API's or third party components]
-
-+ React Components
-+ Third party/custom APIs
-+ Authentication
-+ etc...
-
-### Independent learning (If relevant)
-
-Itemize the technologies/techniques you researched independently and adopted in your project, 
-i.e. aspects not covered in the lectures/labs. Include the source code filenames that illustrate these 
-(we do not require code excerpts) and provide references to the online resources that helped you (articles/blogs).
+None (to be included in future updates)
