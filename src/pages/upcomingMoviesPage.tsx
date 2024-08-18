@@ -65,6 +65,7 @@ const UpcomingMoviesPage: React.FC = () => {
         onFilterValuesChange={changeFilterValues}
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
+        sortByVotes={filterValues.find(f => f.name === "sortByVotes")?.value || "desc"}
       />
     </>
   );

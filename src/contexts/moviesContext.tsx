@@ -60,6 +60,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setMyReviews( {...myReviews, [movie.id]: review } )
       };
     
+      // function to add fantasy movie based on the user's inputted data, id generated with uuid
       const addFantasyMovie = useCallback((formData: FantasyMovieForm) => {
         const newMovie: FantasyMovieForm = {
             ...formData,
